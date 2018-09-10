@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.estoque.daos.ProdutoDAO;
+import br.com.estoque.infra.FileSaver;
 import br.com.estoque.models.Produto;
 import br.com.estoque.models.TipoPreco;
 import br.com.estoque.validation.ProdutoValidation;
@@ -27,10 +28,14 @@ public class ProdutosController {
 	@Autowired
 	private ProdutoDAO produtoDao;
 	
+	@Autowired
+    private FileSaver fileSaver;
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.addValidators(new ProdutoValidation());
 	}
+
 	
 	@RequestMapping("/form")
 	public ModelAndView form() {
@@ -45,6 +50,10 @@ public class ProdutosController {
 			if(result.hasErrors()) {
 				return form();
 			}
+			
+			String path = fileSaver.write("arquivos-sumario", sumario);
+		    produto.setSumarioPath(path);
+			
 		
 			produtoDao.gravar(produto);
 			redirect.addFlashAttribute("sucesso", "Produto cadastrado com sucesso!");

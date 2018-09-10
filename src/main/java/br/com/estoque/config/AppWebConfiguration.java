@@ -11,9 +11,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import br.com.estoque.controllers.IndexController;
 import br.com.estoque.daos.ProdutoDAO;
+import br.com.estoque.infra.FileSaver;
 
 @EnableWebMvc
-@ComponentScan(basePackageClasses={IndexController.class, ProdutoDAO.class, })
+@ComponentScan(basePackageClasses={IndexController.class, ProdutoDAO.class, FileSaver.class})
 public class AppWebConfiguration {
 
 	@Bean
